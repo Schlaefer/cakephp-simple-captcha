@@ -1,3 +1,7 @@
+## 0.4 (2013-09-16)
+
+* Updated for CakePHP 2.4.1
+
 ## 0.3 (2012-02-25)
 
 * Updated for CakePHP 2.0
