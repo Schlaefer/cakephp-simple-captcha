@@ -53,11 +53,10 @@ class SimpleCaptchaHelper extends Helper {
         $obf .= '<span style="display: none;"> - ' . mt_rand(10, 20) . '</span>';
         $obf .= '</span>';
 
-        $label = Text::insert($options['label'], ['question' => $obf]);
-        $options['label'] = false;
+        $label = Text::insert(h($options['label']), ['question' => $obf]);
+        $options['label'] = ['text' => $label, 'escape' => false];
 
-        $html = $this->Form->label('captcha', $label, ['escape' => false]);
-		$html .= $this->Form->input('captcha', $options);
+		$html = $this->Form->input('captcha', $options);
         return $html;
 	}
 
@@ -78,3 +77,4 @@ class SimpleCaptchaHelper extends Helper {
     }
 
 }
+
