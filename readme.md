@@ -12,36 +12,27 @@ Checkout as `simple_captcha` into your plugin directory.
 
 Usage Example
 -------------
-### Helper ###
+
+### Include Helper ###
 
 Include helper in the Controller:
 
-	var $helpers = array (
-			'SimpleCaptcha.SimpleCaptcha',
-	);
+```php
+public $helpers = [
+	'SimpleCaptcha.SimpleCaptcha',
+];
+```
 
+### Use Helper in Template ###
 
-### Behavior ###
+```php
+// in the form:
+echo $this->SimpleCaptcha->input();
+```
 
-Attach Behavior. E.g. dynamically in Controller:
+### Validate Captcha in Controller ###
 
-		if (!empty($this->data)) {
-			$this->User->Behaviors->attach('SimpleCaptcha');
-			if ($this->User->save($this->data)) { 
-				…
-
-
-### Use in View ###
-
-		 echo $this->SimpleCaptcha->input('User', 
-				 array(
-						 'error' => array(
-								'captchaResultIncorrect' 	=> __d('simple_captcha', 'Captcha result incorrect', true),
-								'captchaResultTooLate' 		=> __d('simple_captcha', 'Captcha result too late', true),
-								'captchaResultTooFast' 		=> __d('simple_captcha', 'Captcha result too fast', true),
-							),
-						 'div' =>  array( 'class' => 'required'),
-						)
-				 );
-
-
+```php
+$validator = new \SimpleCaptcha\Model\Validation\SimpleCaptchaValidator();
+$errors = $validator->errors($this->request->data);
+```
