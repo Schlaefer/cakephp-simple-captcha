@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "SimpleCaptcha\\": "src"
+      "Siezi\\SimpleCaptcha\\": "src"
     }
   },
   "autoload-dev": {
