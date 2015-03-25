@@ -8,7 +8,15 @@ See: <https://github.com/Schlaefer/cakephp-simple-captcha>
 Install
 -------
 
-Require in composer: `siezi/cakephp-simple-captcha`
+```php
+composer require siezi/cakephp-simple-captcha
+```
+
+Include plugin manually if necessary:
+
+```php
+Plugin::load('Siezi/SimpleCaptcha');
+```
 
 Usage Example
 -------------
@@ -19,7 +27,7 @@ Include helper in the Controller:
 
 ```php
 public $helpers = [
-	'SimpleCaptcha.SimpleCaptcha',
+	'Siezi/SimpleCaptcha.SimpleCaptcha',
 ];
 ```
 
