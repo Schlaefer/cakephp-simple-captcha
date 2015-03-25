@@ -1,7 +1,7 @@
 SimpleCaptcha for CakePHP
 =========================
 
-Simple captcha plugin for CakePHP.
+Simple captcha plugin for CakePHP. Presents a text field with a simple math problem (plus some other background measures).
 
 See: <https://github.com/Schlaefer/cakephp-simple-captcha>
 
