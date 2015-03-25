@@ -23,12 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Siezi\\SimpleCaptcha\\": "src"
+      "SimpleCaptcha\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "Siezi\\SimpleCaptcha\\Test\\": "tests"
+      "Cake\\Test\\" : "vendor/cakephp/cakephp/test"
     }
   }
 }

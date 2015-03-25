@@ -1,10 +1,10 @@
 <?php
 
-namespace SimpleCaptcha\Model\Validation;
+namespace Siezi\SimpleCaptcha\Model\Validation;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Validation\Validator;
-use SimpleCaptcha\Lib\SimpleCaptchaTrait;
+use Siezi\SimpleCaptcha\Lib\SimpleCaptchaTrait;
 
 class SimpleCaptchaValidator extends Validator {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleCaptcha\Lib;
+namespace Siezi\SimpleCaptcha\Lib;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Utility\Security;

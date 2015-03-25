@@ -1,10 +1,10 @@
 <?php
 
-namespace SimpleCaptcha\View\Helper;
+namespace Siezi\SimpleCaptcha\View\Helper;
 
 use Cake\Utility\Text;
 use Cake\View\Helper;
-use SimpleCaptcha\Lib\SimpleCaptchaTrait;
+use Siezi\SimpleCaptcha\Lib\SimpleCaptchaTrait;
 
 class SimpleCaptchaHelper extends Helper {
 

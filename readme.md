@@ -8,7 +8,7 @@ See: <https://github.com/Schlaefer/cakephp-simple-captcha>
 Install
 -------
 
-Checkout as `simple_captcha` into your plugin directory.
+Require in composer: `siezi/cakephp-simple-captcha`
 
 Usage Example
 -------------
@@ -33,6 +33,6 @@ echo $this->SimpleCaptcha->input();
 ### Validate Captcha in Controller ###
 
 ```php
-$validator = new \SimpleCaptcha\Model\Validation\SimpleCaptchaValidator();
+$validator = new \Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator();
 $errors = $validator->errors($this->request->data);
 ```

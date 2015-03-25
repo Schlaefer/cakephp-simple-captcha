@@ -1,9 +1,9 @@
 <?php
 
-namespace SimpleCaptcha\Test\Model\Validation;
+namespace Siezi\SimpleCaptcha\Test\Model\Validation;
 
 use Cake\TestSuite\TestCase;
-use SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
+use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 
 class SimpleCaptchaValidatorTest extends TestCase {
 
