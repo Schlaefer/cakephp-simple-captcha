@@ -44,7 +44,7 @@ class SimpleCaptchaValidator extends Validator {
             ]
         );
         if ($this->config('type') === 'active') {
-            $this->add('captcha_hash', 'captchaHash', ['rule' => 'notEmpty']);
+            $this->add('captcha_hash', 'captchaHash', ['rule' => 'notBlank']);
             $this->add(
                 'captcha',
                 'captcha',

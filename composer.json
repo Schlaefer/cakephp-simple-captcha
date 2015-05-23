@@ -18,7 +18,7 @@
     "php": ">=5.4.0"
   },
   "require-dev": {
-    "cakephp/cakephp": "3.*-dev",
+    "cakephp/cakephp": "^3.0.2",
     "phpunit/phpunit": "*"
   },
   "autoload": {
