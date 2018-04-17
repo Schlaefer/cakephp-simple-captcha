@@ -9,7 +9,7 @@ require_once 'vendor/autoload.php';
 
 // Path constants to a few helpful things.
 if (!defined('DS')) {
-  define('DS', DIRECTORY_SEPARATOR);
+    define('DS', DIRECTORY_SEPARATOR);
 }
 define('ROOT', dirname(__DIR__) . DS);
 define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
@@ -56,23 +56,23 @@ Configure::write('Session', [
     'defaults' => 'php'
 ]);
 
-Cache::config([
-                  '_cake_core_' => [
-                      'engine' => 'File',
-                      'prefix' => 'cake_core_',
-                      'serialize' => true
-                  ],
-                  '_cake_model_' => [
-                      'engine' => 'File',
-                      'prefix' => 'cake_model_',
-                      'serialize' => true
-                  ],
-                  'default' => [
-                      'engine' => 'File',
-                      'prefix' => 'default_',
-                      'serialize' => true
-                  ]
-              ]);
+Cache::setConfig([
+    '_cake_core_' => [
+        'engine' => 'File',
+        'prefix' => 'cake_core_',
+        'serialize' => true
+    ],
+    '_cake_model_' => [
+        'engine' => 'File',
+        'prefix' => 'cake_model_',
+        'serialize' => true
+    ],
+    'default' => [
+        'engine' => 'File',
+        'prefix' => 'default_',
+        'serialize' => true
+    ]
+]);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
@@ -80,7 +80,7 @@ if (!getenv('db_class')) {
     putenv('db_dsn=sqlite::memory:');
 }
 
-ConnectionManager::config('test', [
+ConnectionManager::setConfig('test', [
     'className' => 'Cake\Database\Connection',
     'driver' => getenv('db_class'),
     'dsn' => getenv('db_dsn'),
@@ -90,17 +90,17 @@ ConnectionManager::config('test', [
     'timezone' => 'UTC'
 ]);
 
-Log::config([
-                'debug' => [
-                    'engine' => 'Cake\Log\Engine\FileLog',
-                    'levels' => ['notice', 'info', 'debug'],
-                    'file' => 'debug',
-                ],
-                'error' => [
-                    'engine' => 'Cake\Log\Engine\FileLog',
-                    'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
-                    'file' => 'error',
-                ]
-            ]);
+Log::setConfig([
+    'debug' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'levels' => ['notice', 'info', 'debug'],
+        'file' => 'debug',
+    ],
+    'error' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+        'file' => 'error',
+    ]
+]);
 
 Plugin::load('Name/AwesomePlugin', ['path' => ROOT]);

@@ -9,7 +9,7 @@ class SimpleCaptchaValidatorTest extends TestCase {
 
     public function testDummyField() {
         $validator = new SimpleCaptchaValidator();
-        $dummyField = $validator->config('dummyField');
+        $dummyField = $validator->getConfig('dummyField');
 
         $result = $validator->errors([$dummyField => 'foo']);
         $this->assertArrayHasKey($dummyField, $result);
@@ -20,7 +20,7 @@ class SimpleCaptchaValidatorTest extends TestCase {
 
     public function testMinTime() {
         $validator = new SimpleCaptchaValidator();
-        $minTime = $validator->config('minTime');
+        $minTime = $validator->getConfig('minTime');
 
         $expected = [
             'captcha_time' => ['captchaMinTime' => 'Captcha result too fast']
@@ -31,14 +31,14 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $result = $validator->errors(['captcha_time' => time() - $minTime - 1]);
         $this->assertEmpty($result);
 
-        $validator->config('minTime', 0);
+        $validator->setConfig('minTime', 0);
         $result = $validator->errors(['captcha_time' => time()]);
         $this->assertEmpty($result);
     }
 
     public function testMaxTime() {
         $validator = new SimpleCaptchaValidator();
-        $maxTime = $validator->config('maxTime');
+        $maxTime = $validator->getConfig('maxTime');
 
         $expected = [
             'captcha_time' => ['captchaMaxTime' => 'Captcha result too late']
@@ -49,15 +49,15 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $result = $validator->errors(['captcha_time' => time() - $maxTime + 1]);
         $this->assertEmpty($result);
 
-        $validator->config('maxTime', 0);
+        $validator->setConfig('maxTime', 0);
         $result = $validator->errors(['captcha_time' => time() - $maxTime]);
         $this->assertEmpty($result);
     }
 
     public function testCaptcha() {
         $validator = new SimpleCaptchaValidator();
-        $validator->config('minTime', 0);
-        $validator->config('maxTime', 0);
+        $validator->setConfig('minTime', 0);
+        $validator->setConfig('maxTime', 0);
 
         $time = time();
 

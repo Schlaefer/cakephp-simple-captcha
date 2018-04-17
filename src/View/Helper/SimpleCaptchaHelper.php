@@ -14,9 +14,24 @@ class SimpleCaptchaHelper extends Helper {
 
     protected $captcha = [];
 
+    /**
+     * Alias for control()
+     *
+     * @param array $options
+     * @return void
+     * @deprecated use control();
+     */
     public function input(array $options = []) {
+        deprecationWarning(
+            'SimpleCaptchaHelper::input() is deprecated. ' .
+            'Use SimpleCaptchaHelper::control() instead.'
+        );
+        return $this->control($options);
+    }
+
+    public function control(array $options = []) {
         $html = $this->passive($options);
-        if ($this->config('type') === 'active') {
+        if ($this->getConfig('type') === 'active') {
             $html = $this->active($options) . $html;
         }
 		return $html;
@@ -25,9 +40,9 @@ class SimpleCaptchaHelper extends Helper {
 	public function passive() {
 		$this->generate();
 		$out[] = '<div style="display:none">';
-        $out[] = $this->Form->input('captcha_hash', ['value' => $this->captcha['hash']]);
-        $out[] = $this->Form->input('captcha_time', ['value' => time()]);
-        $out[] = $this->Form->input($this->config('dummyField'), ['value' => '']);
+        $out[] = $this->Form->control('captcha_hash', ['value' => $this->captcha['hash']]);
+        $out[] = $this->Form->control('captcha_time', ['value' => time()]);
+        $out[] = $this->Form->control($this->getConfig('dummyField'), ['value' => '']);
         $out[] = '</div>';
         if ($this->Form->isFieldError('captcha_time')) {
             $out[] = $this->Form->error('captcha_time');
@@ -56,7 +71,7 @@ class SimpleCaptchaHelper extends Helper {
         $label = Text::insert(h($options['label']), ['question' => $obf]);
         $options['label'] = ['text' => $label, 'escape' => false];
 
-		$html = $this->Form->input('captcha', $options);
+		$html = $this->Form->control('captcha', $options);
         return $html;
 	}
 
@@ -64,7 +79,7 @@ class SimpleCaptchaHelper extends Helper {
         if (!empty($this->captcha)) {
             return;
         }
-        $this->config($this->defaults);
+        $this->setConfig($this->defaults);
 
         // the answer shall not be negative
         $numberOne = mt_rand(6, 9);

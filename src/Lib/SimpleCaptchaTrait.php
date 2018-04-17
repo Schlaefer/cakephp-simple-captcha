@@ -27,7 +27,7 @@ trait SimpleCaptchaTrait {
 
     public function buildHash($params) {
         $hashValue = date('c', $params['timestamp']) . '_';
-        $hashValue .= $params['result'] . '_' . $this->config('salt');
+        $hashValue .= $params['result'] . '_' . $this->getConfig('salt');
         $hashValue = Security::hash($hashValue);
         return $hashValue;
     }

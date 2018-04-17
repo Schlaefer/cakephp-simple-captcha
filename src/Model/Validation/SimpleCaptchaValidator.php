@@ -16,12 +16,12 @@ class SimpleCaptchaValidator extends Validator {
     public function __construct() {
         parent::__construct();
 
-        $this->config($this->defaults);
+        $this->setConfig($this->defaults);
 
         $this
-            ->allowEmpty($this->config('dummyField'))
+            ->allowEmpty($this->getConfig('dummyField'))
             ->add(
-            $this->config('dummyField'),
+            $this->getConfig('dummyField'),
             'dummyField',
             [
                 'rule' => [$this, 'validateDummyField']
@@ -43,7 +43,7 @@ class SimpleCaptchaValidator extends Validator {
                 'message' => __d('simple_captcha', 'Captcha result too late')
             ]
         );
-        if ($this->config('type') === 'active') {
+        if ($this->getConfig('type') === 'active') {
             $this->add('captcha_hash', 'captchaHash', ['rule' => 'notBlank']);
             $this->add(
                 'captcha',
@@ -61,7 +61,7 @@ class SimpleCaptchaValidator extends Validator {
     }
 
     public function validateCaptchaMinTime($value, $context) {
-        $minTime = $this->config('minTime');
+        $minTime = $this->getConfig('minTime');
         if ($minTime <= 0) {
             return true;
         }
@@ -69,7 +69,7 @@ class SimpleCaptchaValidator extends Validator {
     }
 
     public function validateCaptchaMaxTime($value, $context) {
-        $maxTime = $this->config('maxTime');
+        $maxTime = $this->getConfig('maxTime');
         if ($maxTime <= 0) {
             return true;
         }
