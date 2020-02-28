@@ -19,7 +19,7 @@ class SimpleCaptchaValidator extends Validator {
         $this->setConfig($this->defaults);
 
         $this
-            ->allowEmpty($this->getConfig('dummyField'))
+            ->allowEmptyString($this->getConfig('dummyField'))
             ->add(
             $this->getConfig('dummyField'),
             'dummyField',

@@ -5,11 +5,11 @@ All notable changes to `siezi/cakephp-simple-captcha` will be documented in this
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 <!-- Template
-## next - 
+## next -
 
 ### Added
 
-- Nothing 
+- Nothing
 
 ### Deprecated
 
@@ -27,6 +27,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 - Nothing
 -->
+
+## next
+
+### Fixed
+
+- deprecated messages in CakePHP 4.x
 
 ## 0.4.3 - 2018-04-17
 
