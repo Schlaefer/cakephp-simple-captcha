@@ -28,11 +28,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Nothing
 -->
 
-## next
+## 1.0.0 - 2020-02-29
 
-### Fixed
+### Added
 
-- deprecated messages in CakePHP 4.x
+- Updated for CakePHP 4
 
 ## 0.4.3 - 2018-04-17
 

@@ -11,10 +11,10 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $validator = new SimpleCaptchaValidator();
         $dummyField = $validator->getConfig('dummyField');
 
-        $result = $validator->errors([$dummyField => 'foo']);
+        $result = $validator->validate([$dummyField => 'foo']);
         $this->assertArrayHasKey($dummyField, $result);
 
-        $result = $validator->errors([$dummyField => '']);
+        $result = $validator->validate([$dummyField => '']);
         $this->assertEmpty($result);
     }
 
@@ -25,14 +25,14 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $expected = [
             'captcha_time' => ['captchaMinTime' => 'Captcha result too fast']
         ];
-        $result = $validator->errors(['captcha_time' => time() - $minTime + 1]);
+        $result = $validator->validate(['captcha_time' => time() - $minTime + 1]);
         $this->assertEquals($expected, $result);
 
-        $result = $validator->errors(['captcha_time' => time() - $minTime - 1]);
+        $result = $validator->validate(['captcha_time' => time() - $minTime - 1]);
         $this->assertEmpty($result);
 
         $validator->setConfig('minTime', 0);
-        $result = $validator->errors(['captcha_time' => time()]);
+        $result = $validator->validate(['captcha_time' => time()]);
         $this->assertEmpty($result);
     }
 
@@ -43,14 +43,14 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $expected = [
             'captcha_time' => ['captchaMaxTime' => 'Captcha result too late']
         ];
-        $result = $validator->errors(['captcha_time' => time() - $maxTime - 1]);
+        $result = $validator->validate(['captcha_time' => time() - $maxTime - 1]);
         $this->assertEquals($expected, $result);
 
-        $result = $validator->errors(['captcha_time' => time() - $maxTime + 1]);
+        $result = $validator->validate(['captcha_time' => time() - $maxTime + 1]);
         $this->assertEmpty($result);
 
         $validator->setConfig('maxTime', 0);
-        $result = $validator->errors(['captcha_time' => time() - $maxTime]);
+        $result = $validator->validate(['captcha_time' => time() - $maxTime]);
         $this->assertEmpty($result);
     }
 
@@ -69,11 +69,11 @@ class SimpleCaptchaValidatorTest extends TestCase {
         $expected = [
             'captcha' => ['captcha' => 'Captcha result incorrect']
         ];
-        $result = $validator->errors($data);
+        $result = $validator->validate($data);
         $this->assertEquals($expected, $result);
 
         $data['captcha_hash'] = $validator->buildHash(['timestamp' => $time, 'result' => 'foo']);
-        $result = $validator->errors($data);
+        $result = $validator->validate($data);
         $this->assertEmpty($result);
     }
 

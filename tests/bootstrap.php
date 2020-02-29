@@ -1,106 +1,126 @@
 <?php
+
+declare(strict_types=1);
+
 use Cake\Cache\Cache;
+use Cake\Chronos\Chronos;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Log\Log;
+use Cake\Utility\Security;
 
-require_once 'vendor/autoload.php';
+if (is_file('vendor/autoload.php')) {
+    require_once 'vendor/autoload.php';
+} else {
+    require_once dirname(__DIR__) . '/vendor/autoload.php';
+}
 
-// Path constants to a few helpful things.
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
-define('ROOT', dirname(__DIR__) . DS);
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
+define('ROOT', dirname(__DIR__));
+define('APP_DIR', 'TestApp');
+
+define('TMP', sys_get_temp_dir() . DS);
+define('LOGS', TMP . 'logs' . DS);
+define('CACHE', TMP . 'cache' . DS);
+define('SESSIONS', TMP . 'sessions' . DS);
+
+define('CAKE_CORE_INCLUDE_PATH', ROOT);
+define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
-define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
-define('APP_DIR', 'test_app');
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', APP . 'webroot' . DS);
-define('TMP', ROOT . 'tests' . DS . 'tmp' . DS);
-define('CACHE', TMP);
-define('LOGS', TMP);
+define('CORE_TESTS', CORE_PATH . 'tests' . DS);
+define('CORE_TEST_CASES', CORE_TESTS . 'TestCase');
+define('TEST_APP', CORE_TESTS . 'test_app' . DS);
 
-$loader = new \Cake\Core\ClassLoader;
-$loader->register();
-$loader->addNamespace('Cake\Test\Fixture', ROOT . '/vendor/cakephp/cakephp/tests/Fixture');
+// Point app constants to the test app.
+define('APP', TEST_APP . 'TestApp' . DS);
+define('WWW_ROOT', TEST_APP . 'webroot' . DS);
+define('CONFIG', TEST_APP . 'config' . DS);
 
-require_once CORE_PATH . 'config/bootstrap.php';
+// phpcs:disable
+@mkdir(LOGS);
+@mkdir(SESSIONS);
+@mkdir(CACHE);
+@mkdir(CACHE . 'views');
+@mkdir(CACHE . 'models');
+// phpcs:enable
 
 date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
 
 Configure::write('debug', true);
-
 Configure::write('App', [
     'namespace' => 'App',
     'encoding' => 'UTF-8',
     'base' => false,
     'baseUrl' => false,
-    'dir' => 'src',
+    'dir' => APP_DIR,
     'webroot' => 'webroot',
-    'wwwRoot' => APP . 'webroot',
+    'wwwRoot' => WWW_ROOT,
     'fullBaseUrl' => 'http://localhost',
     'imageBaseUrl' => 'img/',
     'jsBaseUrl' => 'js/',
     'cssBaseUrl' => 'css/',
     'paths' => [
-        'plugins' => [APP . 'Plugin' . DS],
-        'templates' => [APP . 'Template' . DS]
-    ]
-]);
-
-Configure::write('Session', [
-    'defaults' => 'php'
+        'plugins' => [TEST_APP . 'Plugin' . DS],
+        'templates' => [TEST_APP . 'templates' . DS],
+        'locales' => [TEST_APP . 'resources' . DS . 'locales' . DS],
+    ],
 ]);
 
 Cache::setConfig([
     '_cake_core_' => [
         'engine' => 'File',
         'prefix' => 'cake_core_',
-        'serialize' => true
+        'serialize' => true,
     ],
     '_cake_model_' => [
         'engine' => 'File',
         'prefix' => 'cake_model_',
-        'serialize' => true
+        'serialize' => true,
     ],
-    'default' => [
-        'engine' => 'File',
-        'prefix' => 'default_',
-        'serialize' => true
-    ]
 ]);
 
 // Ensure default test connection is defined
-if (!getenv('db_class')) {
-    putenv('db_class=Cake\Database\Driver\Sqlite');
-    putenv('db_dsn=sqlite::memory:');
+if (!getenv('DB_DSN')) {
+    putenv('DB_DSN=sqlite:///:memory:');
 }
 
-ConnectionManager::setConfig('test', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class'),
-    'dsn' => getenv('db_dsn'),
-    'database' => getenv('db_database'),
-    'username' => getenv('db_login'),
-    'password' => getenv('db_password'),
-    'timezone' => 'UTC'
+ConnectionManager::setConfig('test', ['url' => getenv('DB_DSN')]);
+ConnectionManager::setConfig('test_custom_i18n_datasource', ['url' => getenv('DB_DSN')]);
+
+Configure::write('Session', [
+    'defaults' => 'php',
 ]);
 
 Log::setConfig([
+    // 'queries' => [
+    //     'className' => 'Console',
+    //     'stream' => 'php://stderr',
+    //     'scopes' => ['queriesLog']
+    // ],
     'debug' => [
         'engine' => 'Cake\Log\Engine\FileLog',
         'levels' => ['notice', 'info', 'debug'],
         'file' => 'debug',
+        'path' => LOGS,
     ],
     'error' => [
         'engine' => 'Cake\Log\Engine\FileLog',
         'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
         'file' => 'error',
-    ]
+        'path' => LOGS,
+    ],
 ]);
 
-Plugin::load('Name/AwesomePlugin', ['path' => ROOT]);
+Chronos::setTestNow(Chronos::now());
+Security::setSalt('a-long-but-not-random-value');
+
+ini_set('intl.default_locale', 'en_US');
+ini_set('session.gc_divisor', '1');
+
+// Fixate sessionid early on, as php7.2+
+// does not allow the sessionid to be set after stdout
+// has been written to.
+session_id('cli');

@@ -1,7 +1,7 @@
 SimpleCaptcha for CakePHP
 =========================
 
-Simple captcha plugin for CakePHP. Presents a text field with a simple math problem (plus some other background measures).
+Simple captcha plugin for CakePHP. Presents a text field with a simple math problem (plus some invisible checks).
 
 See: <https://github.com/Schlaefer/cakephp-simple-captcha>
 
@@ -12,35 +12,38 @@ Install
 composer require siezi/cakephp-simple-captcha
 ```
 
-Include plugin manually if necessary:
+Include plugin Cake 4 style:
 
 ```php
-Plugin::load('Siezi/SimpleCaptcha');
+$this->addPlugin(\Siezi\SimpleCaptcha\Plugin::class);
 ```
 
 Usage Example
 -------------
 
-### Include Helper ###
+### Insert Captcha-Field in Template ###
 
-Include helper in the Controller:
+Load the helper CakePHP 4 style:
 
 ```php
-public $helpers = [
-	'Siezi/SimpleCaptcha.SimpleCaptcha',
-];
+$this->loadHelper('Siezi/SimpleCaptcha.SimpleCaptcha');
 ```
 
-### Use Helper in Template ###
+In template form:
 
 ```php
-// in the form:
-echo $this->SimpleCaptcha->input();
+echo $this->SimpleCaptcha->control();
 ```
 
 ### Validate Captcha in Controller ###
 
 ```php
 $validator = new \Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator();
-$errors = $validator->errors($this->request->data);
+$errors = $validator->validate($this->request->getData());
+```
+
+Depending on the form you may want to merge the captcha-errors so they are displayed automatically with other form validation errors. For example if the form is backed by a user-entity:
+
+```php
+$yourUserEntity->setErrors($errors);
 ```

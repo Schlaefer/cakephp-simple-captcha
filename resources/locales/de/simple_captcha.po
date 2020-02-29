@@ -1,3 +1,8 @@
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 msgid "Captcha result incorrect"
 msgstr "Ihre Berechnung war leider nicht korrekt."
 
